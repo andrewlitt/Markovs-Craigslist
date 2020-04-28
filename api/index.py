@@ -9,7 +9,7 @@ class handler(BaseHTTPRequestHandler):
       self.send_header("Content-type", "text/json")
       self.end_headers()
       print(self.wfile)
-      with open('./data/master_model.json') as master_model:
+      with open('./public/master_model.json') as master_model:
          data = json.load(master_model)
 
       model = json.dumps(data.get('title'))
@@ -19,13 +19,13 @@ class handler(BaseHTTPRequestHandler):
       master_sentence_models = []
       num_models = len(data['sentences'])
 
-      for i in range(num_models):
+      for i in range(7):
          model = json.dumps(data.get('sentences')[i])
          master_sentence_models.append(markovify.Text.from_json(model))
 
       title_output = master_title_model.make_sentence(tries = 100)
       sentence_output = []
-      for i in range(random.randint(3,num_models)):
+      for i in range(random.randint(3,7)):
          s = master_sentence_models[i].make_sentence(tries = 100)
          if(s != None):
             sentence_output.append(s)
